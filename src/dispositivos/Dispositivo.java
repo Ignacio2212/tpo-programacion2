@@ -1,13 +1,10 @@
 package dispositivos;
 
-/**
- * Representa un dispositivo urbano: semaforo o camara.
- */
 public class Dispositivo {
     private String codigo;
-    private String tipo;       // "semaforo" o "camara"
+    private String tipo;
     private String ubicacion;
-    private String estado;     // "activo", "inactivo", "en_mantenimiento"
+    private String estado;
 
     public Dispositivo(String codigo, String tipo, String ubicacion, String estado) {
         this.codigo = codigo;
