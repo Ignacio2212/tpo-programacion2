@@ -103,7 +103,5 @@ https://github.com/Ignacio2212/tpo-programacion2/blob/main/README.md
 Interseccion y TipoAfectacion, la estructura Grafo y
 DiccionarioIntersecciones, y el módulo GestorRedVial para el
 modelado de la ciudad y cálculo de rutas (carpeta parte1_red_vial/).
-* Joaquín Roitberg: [COMPLETAR: detallar la actividad realizada,
-por ejemplo módulo de Emergencias o Dispositivos].
-* Agustín Vega: [COMPLETAR: detallar la actividad realizada,
-por ejemplo módulo de Emergencias o Dispositivos].
+* Joaquín Roitberg: implementación de las entidades ColaPrioridadEmergencias, Emergencias y GestorEmergencias
+* Agustín Vega: implementación de las entidades DiccionarioDispositivos, Dispositivos, GestorDispositivos
