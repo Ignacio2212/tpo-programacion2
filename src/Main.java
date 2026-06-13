@@ -1,3 +1,4 @@
+import dispositivos.GestorDispositivos;
 import emergencias.GestorEmergencias;
 import redvial.GestorRedVial;
 import redvial.TipoAfectacion;
@@ -317,6 +318,44 @@ public class Main {
                     break;
                 case "5":
                     gestor.listarTodas();
+                    break;
+                case "0":
+                    volver = true;
+                    break;
+                default:
+                    System.out.println("-> Opcion invalida.");
+            }
+        }
+    }
+
+    private static void menuDispositivos(GestorDispositivos gestor) {
+        boolean volver = false;
+        while (!volver) {
+            System.out.println("\n--- Indexacion de Dispositivos Urbanos ---");
+            System.out.println("1. Registrar dispositivo");
+            System.out.println("2. Buscar dispositivo por codigo");
+            System.out.println("3. Actualizar estado de un dispositivo");
+            System.out.println("4. Listar todos los dispositivos");
+            System.out.println("0. Volver al menu principal");
+            String opcion = leerLinea("Seleccione una opcion: ");
+            switch (opcion) {
+                case "1":
+                    String codigo = leerLinea("Codigo del dispositivo: ");
+                    String tipo = leerLinea("Tipo (semaforo/camara): ");
+                    String ubicacion = leerLinea("Ubicacion: ");
+                    gestor.registrarDispositivo(codigo, tipo, ubicacion);
+                    break;
+                case "2":
+                    String codigoBuscar = leerLinea("Codigo a buscar: ");
+                    gestor.buscarDispositivo(codigoBuscar);
+                    break;
+                case "3":
+                    String codigoActualizar = leerLinea("Codigo del dispositivo: ");
+                    String estado = leerLinea("Nuevo estado (activo/inactivo/en_mantenimiento): ");
+                    gestor.actualizarEstado(codigoActualizar, estado);
+                    break;
+                case "4":
+                    gestor.listarDispositivos();
                     break;
                 case "0":
                     volver = true;
