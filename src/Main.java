@@ -1,3 +1,4 @@
+import emergencias.GestorEmergencias;
 import redvial.GestorRedVial;
 import redvial.TipoAfectacion;
 
@@ -274,6 +275,55 @@ public class Main {
         } catch (NumberFormatException e) {
             System.out.println("-> Valor invalido, debe ser un numero entero.");
             return null;
+        }
+    }
+    private static void menuEmergencias(GestorEmergencias gestor) {
+        boolean volver = false;
+        while (!volver) {
+            System.out.println("\n Despacho de Emergencias ");
+            System.out.println("1. Registrar emergencia");
+            System.out.println("2. Actualizar estado de una emergencia");
+            System.out.println("3. Atender siguiente emergencia (mayor prioridad)");
+            System.out.println("4. Listar emergencias pendientes (por prioridad)");
+            System.out.println("5. Listar todas las emergencias");
+            System.out.println("0. Volver al menu principal");
+            String opcion = leerLinea("Seleccione una opcion: ");
+
+            switch (opcion) {
+                case "1":
+                    String codigo = leerLinea("Codigo de la emergencia: ");
+                    String descripcion = leerLinea("Descripcion: ");
+                    String gravedadStr = leerLinea("Gravedad (1=critica, 2=alta, 3=media, 4=baja): ");
+                    int gravedad;
+                    try {
+                        gravedad = Integer.parseInt(gravedadStr);
+                    } catch (NumberFormatException e) {
+                        System.out.println("-> Gravedad invalida, debe ser un numero.");
+                        continue;
+                    }
+                    String ubicacion = leerLinea("Ubicacion: ");
+                    gestor.registrarEmergencia(codigo, descripcion, gravedad, ubicacion);
+                    break;
+                case "2":
+                    String codigoActualizar = leerLinea("Codigo de la emergencia: ");
+                    String estado = leerLinea("Nuevo estado (pendiente/en_atencion/resuelta): ");
+                    gestor.actualizarEstado(codigoActualizar, estado);
+                    break;
+                case "3":
+                    gestor.atenderSiguiente();
+                    break;
+                case "4":
+                    gestor.listarPendientes();
+                    break;
+                case "5":
+                    gestor.listarTodas();
+                    break;
+                case "0":
+                    volver = true;
+                    break;
+                default:
+                    System.out.println("-> Opcion invalida.");
+            }
         }
     }
 }
