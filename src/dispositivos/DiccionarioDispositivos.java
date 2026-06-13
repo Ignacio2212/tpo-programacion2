@@ -5,12 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Estructura de datos: Diccionario (Tabla Hash)
- * Utilizado para almacenar los dispositivos urbanos (semaforos y camaras)
- * mediante un codigo unico, permitiendo busquedas, inserciones y
- * modificaciones en tiempo constante O(1).
- */
 public class DiccionarioDispositivos {
 
     private Map<String, Dispositivo> tabla;
