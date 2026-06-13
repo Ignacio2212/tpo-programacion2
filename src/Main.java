@@ -12,6 +12,7 @@ public class Main {
     public static void main(String[] args) {
         GestorRedVial redVial = new GestorRedVial();
         GestorDispositivos dispositivos = new GestorDispositivos();
+        GestorEmergencias emergencias = new GestorEmergencias();
 
         cargarDatosDemo(redVial);
 
@@ -20,7 +21,8 @@ public class Main {
         while (!salir) {
             System.out.println("\nSISTEMA INTELIGENTE DE TRAFICO Y EMERGENCIAS");
             System.out.println("1. Modelado de la Ciudad / Red Vial y Rutas");
-            System.out.println("2. Indexacion de Dispositivos Urbanos");
+            System.out.println("2. Despacho de Emergencias");
+            System.out.println("3. Indexacion de Dispositivos Urbanos");
             System.out.println("0. Salir");
 
             String opcion = leerLinea("Seleccione una opcion: ");
@@ -30,6 +32,9 @@ public class Main {
                     menuRedVial(redVial);
                     break;
                 case "2":
+                    menuEmergencias(emergencias);
+                    break;
+                case "3":
                     menuDispositivos(dispositivos);
                     break;
                 case "0":
