@@ -1,12 +1,5 @@
 package dispositivos;
 
-
-/**
- * Modulo: Gestion de Dispositivos Urbanos
- * Funcionalidad implementada: Indexacion de dispositivos (semaforos y
- * camaras) mediante un diccionario (tabla hash), permitiendo busqueda
- * y modificacion de estado en tiempo constante O(1).
- */
 public class GestorDispositivos {
 
     private DiccionarioDispositivos dispositivos;
