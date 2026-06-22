@@ -1,16 +1,15 @@
 package dispositivos;
 
+import util.Diccionario;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DiccionarioDispositivos {
 
-    private Map<String, Dispositivo> tabla;
+    private Diccionario<String, Dispositivo> tabla;
 
     public DiccionarioDispositivos() {
-        this.tabla = new HashMap<>();
+        this.tabla = new Diccionario<>();
     }
 
     public void insertar(String codigo, Dispositivo dispositivo) {
