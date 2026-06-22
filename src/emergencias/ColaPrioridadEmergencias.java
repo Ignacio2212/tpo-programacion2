@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class ColaPrioridadEmergencias {     /** Envoltorio interno que combina la emergencia, su prioridad y un
- *  contador de secuencia para desempatar respetando el orden de llegada. */
+public class ColaPrioridadEmergencias {
 private static class Entrada implements Comparable<Entrada> {
     Emergencia emergencia;
     int prioridad;
@@ -56,7 +55,7 @@ private static class Entrada implements Comparable<Entrada> {
         return heap.size();
     }
 
-    /** Devuelve las emergencias ordenadas por prioridad sin modificar la cola. */
+    /** Devuelve las emergencias ordenadas por prioridad sin modificar la cola */
     public List<Emergencia> listar() {
         List<Entrada> copia = new ArrayList<>(heap);
         copia.sort(null);

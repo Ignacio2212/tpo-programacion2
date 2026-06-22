@@ -1,14 +1,13 @@
 package emergencias;
 
-import java.util.HashMap;
-import java.util.Map;
+import util.Diccionario;
 
 /**
- * Representa una emergencia reportada en la ciudad.
+ * Representa una emergencia reportada en la ciudad
  */
 public class Emergencia {
 
-    private static final Map<Integer, String> NIVELES = new HashMap<>();
+    private static final Diccionario<Integer, String> NIVELES = new Diccionario<>();
     static {
         NIVELES.put(1, "CRITICA");
         NIVELES.put(2, "ALTA");

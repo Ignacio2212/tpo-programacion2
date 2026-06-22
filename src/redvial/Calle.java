@@ -10,20 +10,8 @@ package redvial;
  *
  * El tiempo efectivo de la calle (el que realmente se usa para calcular la ruta mas rapida) es:
  *      tiempoEfectivo = tiempoBase * afectacion.getFactorPonderacion()
- *
- * Por ejemplo: una calle con tiempo base 2 y un corte parcial
- * (factor 4) pasa a tener un tiempo efectivo de 8. Esto permite que
- * una ruta con mas cuadras pero sin afectaciones termine siendo mas
- * rapida que una ruta mas corta pero con una calle cortada o con
- * mucho trafico
- *
- * El sentido de circulacion va de "origen" hacia "destino". Si la
- * calle es de doble mano, se deben crear dos objetos Calle (uno por
- * cada sentido), ya que cada sentido puede tener afectaciones
- * distintas (por ejemplo, un corte que solo afecta un carril)
  */
 public class Calle {
-
     private String nombre;
     private String origen;
     private String destino;

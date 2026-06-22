@@ -1,45 +1,33 @@
 package redvial;
 
+import util.Diccionario;
+import util.ConjuntoVisitados;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Set;
 
-/*
- * Utilizado para representar la red vial de la ciudad. Cada
- * interseccion es un vertice, y cada CALLE (con nombre propio, tiempo
- * base y afectacion actual) es una arista dirigida entre dos intersecciones
- *
- * Puede existir mas de una calle entre el mismo par de intersecciones
- * (calles paralelas / alternativas), cada una con su propio tiempo y afectacion.
- *
- * criterio unico de ruta: la "mejor ruta" siempre es la que minimiza
- * el tiempo total de viaje (suma de los tiempos efectivos de cada
- * calle recorrida), sin importar la cantidad de calles ni la
- * distancia recorrida. Una ruta con mas cuadras pero sin afectaciones
- * puede ser mas rapida que una ruta mas corta pero con una calle
- * congestionada o cortada
- */
+
 public class Grafo {
 
-    private Map<String, List<Calle>> vertices;
+    private static final int CAPACIDAD_MAX = 500;
+
+    private Diccionario<String, List<Calle>> vertices;
 
     public Grafo() {
-        this.vertices = new HashMap<>();
+        this.vertices = new Diccionario<>();
     }
 
     public void agregarVertice(String nombre) {
-        vertices.putIfAbsent(nombre, new ArrayList<>());
+        if (!vertices.containsKey(nombre)) {
+            vertices.put(nombre, new ArrayList<>());
+        }
     }
 
     /*
      * Agrega una calle (arista dirigida) entre dos intersecciones.
-     * Pueden existir varias calles entre el mismo par de intersecciones (calles paralelas / alternativas)
+     * Pueden existir varias calles entre el mismo par de intersecciones
      */
     public void agregarCalle(Calle calle) {
         agregarVertice(calle.getOrigen());
@@ -53,7 +41,8 @@ public class Grafo {
 
     /* Devuelve todas las calles que salen de una interseccion */
     public List<Calle> callesDesde(String interseccion) {
-        return vertices.getOrDefault(interseccion, new ArrayList<>());
+        List<Calle> lista = vertices.get(interseccion);
+        return (lista != null) ? lista : new ArrayList<>();
     }
 
     /* Devuelve todas las calles cargadas en la red */
@@ -67,7 +56,8 @@ public class Grafo {
 
     /*
      * Verifica mediante BFS si existe una ruta entre dos puntos,
-     * considerando unicamente calles transitables (no cortadas)
+     * considerando unicamente calles transitables (no cortadas).
+     * Usa ConjuntoVisitados (arreglo + busqueda lineal) en lugar de HashSet.
      */
     public boolean existeRuta(String origen, String destino) {
         if (!vertices.containsKey(origen) || !vertices.containsKey(destino)) {
@@ -77,8 +67,8 @@ public class Grafo {
             return true;
         }
 
-        Set<String> visitados = new HashSet<>();
-        visitados.add(origen);
+        ConjuntoVisitados visitados = new ConjuntoVisitados(CAPACIDAD_MAX);
+        visitados.agregar(origen);
         Queue<String> cola = new LinkedList<>();
         cola.add(origen);
 
@@ -92,8 +82,8 @@ public class Grafo {
                 if (vecino.equals(destino)) {
                     return true;
                 }
-                if (!visitados.contains(vecino)) {
-                    visitados.add(vecino);
+                if (!visitados.contiene(vecino)) {
+                    visitados.agregar(vecino);
                     cola.add(vecino);
                 }
             }
@@ -103,8 +93,8 @@ public class Grafo {
 
     /* Resultado del calculo de ruta: secuencia de calles utilizadas y tiempo total */
     public static class ResultadoRuta {
-        public final List<Calle> calles;     // calles recorridas, en orden
-        public final double tiempoTotal;      // suma de tiempos efectivos de cada calle
+        public final List<Calle> calles;
+        public final double tiempoTotal;
 
         public ResultadoRuta(List<Calle> calles, double tiempoTotal) {
             this.calles = calles;
@@ -116,16 +106,54 @@ public class Grafo {
         }
     }
 
+    /**
+     * Encuentra TODAS las rutas simples (sin ciclos) entre dos vertices,
+     * usando DFS con backtracking. Ignora calles con corte total.
+     * Usa ConjuntoVisitados (arreglo + busqueda lineal) en lugar de HashSet.
+     */
+    public List<List<Calle>> todasLasRutas(String origen, String destino) {
+        List<List<Calle>> resultado = new ArrayList<>();
+        if (!vertices.containsKey(origen) || !vertices.containsKey(destino)) {
+            return resultado;
+        }
+        ConjuntoVisitados visitados = new ConjuntoVisitados(CAPACIDAD_MAX);
+        visitados.agregar(origen);
+        dfsTodasLasRutas(origen, destino, visitados, new ArrayList<>(), resultado);
+        return resultado;
+    }
+
+    private void dfsTodasLasRutas(String actual, String destino,
+                                  ConjuntoVisitados visitados, List<Calle> rutaActual,
+                                  List<List<Calle>> resultado) {
+        if (actual.equals(destino)) {
+            resultado.add(new ArrayList<>(rutaActual));
+            return;
+        }
+        List<Calle> callesActual = vertices.get(actual);
+        if (callesActual == null) return;
+        for (Calle calle : callesActual) {
+            if (calle.estaCortada()) continue;
+            String vecino = calle.getDestino();
+            if (!visitados.contiene(vecino)) {
+                visitados.agregar(vecino);
+                rutaActual.add(calle);
+                dfsTodasLasRutas(vecino, destino, visitados, rutaActual, resultado);
+                rutaActual.remove(rutaActual.size() - 1);
+                visitados.eliminar(vecino);   // backtracking
+            }
+        }
+    }
+
     public ResultadoRuta rutaMasRapida(String origen, String destino) {
         if (!vertices.containsKey(origen) || !vertices.containsKey(destino)) {
             return new ResultadoRuta(null, Double.POSITIVE_INFINITY);
         }
 
-        Map<String, Double> tiempos = new HashMap<>();
-        Map<String, Calle> calleUsada = new HashMap<>();
-        Map<String, String> previos = new HashMap<>();
+        Diccionario<String, Double> tiempos   = new Diccionario<>();
+        Diccionario<String, Calle> calleUsada = new Diccionario<>();
+        Diccionario<String, String> previos   = new Diccionario<>();
 
-        for (String v : vertices.keySet()) {
+        for (String v : vertices.keys()) {
             tiempos.put(v, Double.POSITIVE_INFINITY);
         }
         tiempos.put(origen, 0.0);
@@ -133,22 +161,25 @@ public class Grafo {
         PriorityQueue<String> heap = new PriorityQueue<>(
                 (a, b) -> Double.compare(tiempos.get(a), tiempos.get(b)));
         heap.add(origen);
-        Set<String> visitados = new HashSet<>();
+
+        ConjuntoVisitados visitados = new ConjuntoVisitados(CAPACIDAD_MAX);
 
         while (!heap.isEmpty()) {
             String actual = heap.poll();
 
-            if (visitados.contains(actual)) {
+            if (visitados.contiene(actual)) {
                 continue;
             }
-            visitados.add(actual);
+            visitados.agregar(actual);
 
             if (actual.equals(destino)) {
                 break;
             }
 
-            for (Calle calle : vertices.get(actual)) {
-                // Las calles con corte total se consideran intransitables.
+            List<Calle> callesActual = vertices.get(actual);
+            if (callesActual == null) continue;
+
+            for (Calle calle : callesActual) {
                 if (calle.estaCortada()) {
                     continue;
                 }
@@ -157,7 +188,8 @@ public class Grafo {
                 double tiempoArista = calle.getTiempoEfectivo();
                 double nuevoTiempo = tiempos.get(actual) + tiempoArista;
 
-                if (nuevoTiempo < tiempos.get(vecino)) {
+                Double tiempoActual = tiempos.get(vecino);
+                if (tiempoActual == null || nuevoTiempo < tiempoActual) {
                     tiempos.put(vecino, nuevoTiempo);
                     previos.put(vecino, actual);
                     calleUsada.put(vecino, calle);
@@ -166,7 +198,8 @@ public class Grafo {
             }
         }
 
-        if (tiempos.get(destino) == Double.POSITIVE_INFINITY) {
+        Double tiempoDestino = tiempos.get(destino);
+        if (tiempoDestino == null || tiempoDestino == Double.POSITIVE_INFINITY) {
             return new ResultadoRuta(null, Double.POSITIVE_INFINITY);
         }
 
@@ -177,15 +210,16 @@ public class Grafo {
             actual = previos.get(actual);
         }
 
-        return new ResultadoRuta(new ArrayList<>(calles), tiempos.get(destino));
+        return new ResultadoRuta(new ArrayList<>(calles), tiempoDestino);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, List<Calle>> entry : vertices.entrySet()) {
-            String v = entry.getKey();
-            List<Calle> calles = entry.getValue();
+        for (Object[] entrada : vertices.entradas()) {
+            String v = (String) entrada[0];
+            @SuppressWarnings("unchecked")
+            List<Calle> calles = (List<Calle>) entrada[1];
             if (calles.isEmpty()) {
                 sb.append(v).append(" -> (sin calles salientes)\n");
                 continue;

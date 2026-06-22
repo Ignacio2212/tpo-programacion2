@@ -1,7 +1,7 @@
 package redvial;
 
 /*
- * Representa una interseccion (esquina) de la ciudad: el punto donde se cruzan dos calles.
+ * Representa una interseccion de la ciudad
  *
  * Cada interseccion tiene:
  *  - un ID unico, usado internamente por el sistema para administrar
@@ -38,18 +38,10 @@ public class Interseccion {
         return calleDos;
     }
 
-    /*
-     * Indica si esta interseccion involucra a la calle dada (en
-     * cualquiera de sus dos calles), sin distinguir mayusculas/minusculas
-     */
     public boolean involucraCalle(String nombreCalle) {
         return calleUno.equalsIgnoreCase(nombreCalle) || calleDos.equalsIgnoreCase(nombreCalle);
     }
 
-    /*
-     * Nombre con el que el usuario identifica esta interseccion:
-     * "CalleUno y CalleDos".
-     */
     public String getNombreVisible() {
         return calleUno + " y " + calleDos;
     }

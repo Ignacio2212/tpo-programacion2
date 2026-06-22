@@ -8,7 +8,7 @@ import java.util.List;
  * Funcionalidad implementada:
  *  - Una interseccion es el cruce de dos calles (ej: "Independencia y
  *    Lima"). Cada interseccion tiene un ID unico interno para que el
- *    sistema la administre (vertice del grafo), pero el usuario la
+ *    sistema la administre, pero el usuario la
  *    identifica unicamente por el nombre de sus dos calles. nunca
  *    necesita conocer ni escribir el ID.
  *  - Cada calle conecta dos intersecciones en un sentido
@@ -32,7 +32,7 @@ public class GestorRedVial {
     }
 
     /*
-     * Registra (o recupera, si ya existe) la interseccion formada por
+     * Registra la interseccion formada por
      * dos calles, ej: "Independencia" y "Lima". El sistema le asigna
      * automaticamente un ID interno (ej: INT-001) para administrarla;
      * el usuario solo necesita recordar el nombre de las dos calles
@@ -108,7 +108,8 @@ public class GestorRedVial {
 
     /*
      * Verifica si existe una ruta transitable entre dos intersecciones,
-     * identificadas por el nombre de sus calles
+     * identificadas por el nombre de sus calles. Si hay mas de una,
+     * muestra la cantidad y el detalle de cada una.
      */
     public boolean existeRuta(String origenA, String origenB, String destinoA, String destinoB) {
         Interseccion origen = intersecciones.buscarPorCalles(origenA, origenB);
@@ -119,15 +120,48 @@ public class GestorRedVial {
             return false;
         }
 
-        boolean existe = red.existeRuta(origen.getId(), destino.getId());
-        if (existe) {
-            System.out.println("--> Existe una ruta entre '" + origen.getNombreVisible()
+        List<List<Calle>> todasLasRutas = red.todasLasRutas(origen.getId(), destino.getId());
+
+        if (todasLasRutas.isEmpty()) {
+            System.out.println("--> No existe ninguna ruta entre '" + origen.getNombreVisible()
                     + "' y '" + destino.getNombreVisible() + "'.");
-        } else {
-            System.out.println("--> No existe ruta entre '" + origen.getNombreVisible()
-                    + "' y '" + destino.getNombreVisible() + "'.");
+            return false;
         }
-        return existe;
+
+        // Ordenar rutas de menor a mayor tiempo efectivo total
+        todasLasRutas.sort((a, b) -> Double.compare(calcularTiempoTotal(a), calcularTiempoTotal(b)));
+
+        System.out.println("--> Hay " + todasLasRutas.size() + " ruta(s) entre '"
+                + origen.getNombreVisible() + "' y '" + destino.getNombreVisible() + "':");
+
+        for (int i = 0; i < todasLasRutas.size(); i++) {
+            List<Calle> ruta = todasLasRutas.get(i);
+
+            StringBuilder secuencia = new StringBuilder(origen.getNombreVisible());
+            double tiempoTotal = 0;
+            for (Calle calle : ruta) {
+                Interseccion destTramo = intersecciones.buscarPorId(calle.getDestino());
+                String nombreDest = (destTramo != null) ? destTramo.getNombreVisible() : calle.getDestino();
+                secuencia.append(" -(").append(calle.getNombre()).append(")-> ").append(nombreDest);
+                tiempoTotal += calle.getTiempoEfectivo();
+            }
+
+            String marcaMasRapida = (i == 0 && todasLasRutas.size() > 1) ? " (*)" : "";
+            System.out.println("   Ruta " + (i + 1) + marcaMasRapida + ": " + secuencia);
+            System.out.println("           Tiempo estimado: " + formatear(tiempoTotal));
+        }
+
+        if (todasLasRutas.size() > 1) {
+            System.out.println("   (*) = ruta mas rapida segun tiempo efectivo");
+        }
+
+        return true;
+    }
+
+    private double calcularTiempoTotal(List<Calle> ruta) {
+        double t = 0;
+        for (Calle c : ruta) t += c.getTiempoEfectivo();
+        return t;
     }
 
     /*

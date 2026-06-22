@@ -2,12 +2,7 @@ package util;
 
 /**
  * Estructura de datos: Conjunto de visitados
- *
- * Implementacion propia con arreglo fijo y busqueda lineal,
- * siguiendo la misma logica que GrafoMatrizAdyacencia de catedra
- * (T[] vertices + cantidad + obtenerIndice).
- *
- * Reemplaza al HashSet usado para rastrear nodos visitados en BFS/DFS.
+ * Implementacion propia con arreglo fijo y busqueda lineal
  */
 public class ConjuntoVisitados {
 
@@ -19,7 +14,7 @@ public class ConjuntoVisitados {
         this.cantidad  = 0;
     }
 
-    /** Agrega el elemento si no estaba ya. */
+    /** Agrega el elemento si no estaba */
     public void agregar(String elemento) {
         if (!contiene(elemento) && cantidad < elementos.length) {
             elementos[cantidad] = elemento;
@@ -27,7 +22,7 @@ public class ConjuntoVisitados {
         }
     }
 
-    /** Devuelve true si el elemento ya fue agregado. */
+    /** Devuelve true si el elemento ya fue agregado */
     public boolean contiene(String elemento) {
         for (int i = 0; i < cantidad; i++) {
             if (elementos[i].equals(elemento)) {
@@ -37,7 +32,7 @@ public class ConjuntoVisitados {
         return false;
     }
 
-    /** Elimina el elemento del conjunto (para backtracking en DFS). */
+    /** Elimina el elemento del conjunto */
     public void eliminar(String elemento) {
         for (int i = 0; i < cantidad; i++) {
             if (elementos[i].equals(elemento)) {
@@ -51,7 +46,7 @@ public class ConjuntoVisitados {
         }
     }
 
-    /** Devuelve cuantos elementos tiene el conjunto. */
+    /** Devuelve cuantos elementos tiene el conjunto */
     public int tamanio() {
         return cantidad;
     }

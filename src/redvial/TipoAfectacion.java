@@ -2,11 +2,6 @@ package redvial;
 
 /*
  * Tipos de afectacion que pueden impactar el transito de una calle
- *
- * Cada tipo tiene asociado un factor de ponderacion: el tiempo base
- * de la calle se multiplica por este factor para obtener el tiempo
- * efectivo cuando la afectacion esta activa.
- *
  * Por ejemplo, una calle con tiempo base 2 y un semaforo roto
  * (factor 1.5) pasa a tener un tiempo efectivo de 3.
  */

@@ -23,9 +23,7 @@ public class Main {
         boolean salir = false;
 
         while (!salir) {
-            System.out.println("\n========================================");
             System.out.println(" SISTEMA INTELIGENTE DE TRAFICO Y EMERGENCIAS");
-            System.out.println("========================================");
             System.out.println("1. Modelado de la Ciudad / Red Vial y Rutas");
             System.out.println("2. Despacho de Emergencias");
             System.out.println("3. Indexacion de Dispositivos Urbanos");
@@ -63,17 +61,14 @@ public class Main {
         scanner.close();
     }
 
-    // ---------------------------------------------------------------
     // Carga de datos de demostracion
-    // ---------------------------------------------------------------
-
     private static void cargarDatosDemo(GestorRedVial redVial,
                                          GestorTerritorial territorial,
                                          GestorVehicular vehicular,
                                          GestorEmergencias emergencias,
                                          GestorDispositivos dispositivos) {
 
-        // --- Red vial ---
+        //  Red vial
         redVial.registrarInterseccion("Independencia", "Lima");
         redVial.registrarInterseccion("Independencia", "Salta");
         redVial.registrarInterseccion("Belgrano", "Lima");
@@ -88,7 +83,7 @@ public class Main {
 
         System.out.println("=== Red vial cargada ===");
 
-        // --- Organizacion territorial ---
+        //  Organizacion territorial
         territorial.agregarZona("Zona Norte");
         territorial.agregarZona("Zona Sur");
 
@@ -112,7 +107,7 @@ public class Main {
 
         System.out.println("=== Organizacion territorial cargada ===");
 
-        // --- Flujo vehicular ---
+        //  Flujo vehicular
         vehicular.registrarArribo("Independencia y Lima", "ABC123", "auto");
         vehicular.registrarArribo("Independencia y Lima", "DEF456", "moto");
         vehicular.registrarArribo("Independencia y Lima", "GHI789", "camion");
@@ -121,7 +116,7 @@ public class Main {
 
         System.out.println("=== Flujo vehicular cargado ===");
 
-        // --- Emergencias precargadas ---
+        //  Emergencias precargadas
         emergencias.registrarEmergencia("EMG-001", "Choque multiple en avenida principal", 1, "Independencia y Lima");
         emergencias.registrarEmergencia("EMG-002", "Semaforo fuera de servicio",           3, "Belgrano y Salta");
         emergencias.registrarEmergencia("EMG-003", "Incendio en vehiculo estacionado",     2, "San Martin y Salta");
@@ -130,7 +125,7 @@ public class Main {
 
         System.out.println("=== Emergencias precargadas ===");
 
-        // --- Dispositivos precargados ---
+        //  Dispositivos precargados
         dispositivos.registrarDispositivo("SEM-001", "semaforo", "Independencia y Lima");
         dispositivos.registrarDispositivo("SEM-002", "semaforo", "Independencia y Salta");
         dispositivos.registrarDispositivo("SEM-003", "semaforo", "Belgrano y Lima");
@@ -143,9 +138,7 @@ public class Main {
         System.out.println("=== Dispositivos precargados ===\n");
     }
 
-    // ---------------------------------------------------------------
     // Menu: Red Vial y Rutas
-    // ---------------------------------------------------------------
 
     private static void menuRedVial(GestorRedVial gestor) {
         boolean volver = false;
@@ -263,9 +256,7 @@ public class Main {
         }
     }
 
-    // ---------------------------------------------------------------
     // Menu: Despacho de Emergencias
-    // ---------------------------------------------------------------
 
     private static void menuEmergencias(GestorEmergencias gestor) {
         boolean volver = false;
@@ -317,9 +308,7 @@ public class Main {
         }
     }
 
-    // ---------------------------------------------------------------
     // Menu: Indexacion de Dispositivos Urbanos
-    // ---------------------------------------------------------------
 
     private static void menuDispositivos(GestorDispositivos gestor) {
         boolean volver = false;
@@ -360,9 +349,7 @@ public class Main {
         }
     }
 
-    // ---------------------------------------------------------------
     // Menu: Organizacion Territorial
-    // ---------------------------------------------------------------
 
     private static void menuTerritorial(GestorTerritorial gestor) {
         boolean volver = false;
@@ -413,9 +400,7 @@ public class Main {
         }
     }
 
-    // ---------------------------------------------------------------
     // Menu: Flujo Vehicular
-    // ---------------------------------------------------------------
 
     private static void menuVehicular(GestorVehicular gestor) {
         boolean volver = false;
@@ -461,9 +446,7 @@ public class Main {
         }
     }
 
-    // ---------------------------------------------------------------
     // Helpers
-    // ---------------------------------------------------------------
 
     private static TipoAfectacion elegirAfectacion() {
         TipoAfectacion[] opciones = TipoAfectacion.values();

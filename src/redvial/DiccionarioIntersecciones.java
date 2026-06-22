@@ -1,9 +1,8 @@
 package redvial;
 
+import util.Diccionario;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /*
  * Indexa las intersecciones de la ciudad por su ID UNICO interno,
@@ -15,13 +14,12 @@ import java.util.Map;
  */
 public class DiccionarioIntersecciones {
 
-    private Map<String, Interseccion> porId;
-
+    private Diccionario<String, Interseccion> porId;
     // Contador para generar IDs unicos automaticamente
     private int contador;
 
     public DiccionarioIntersecciones() {
-        this.porId = new HashMap<>();
+        this.porId = new Diccionario<>();
         this.contador = 0;
     }
 
@@ -55,8 +53,7 @@ public class DiccionarioIntersecciones {
 
     /*
      * Busca una interseccion a partir del nombre de sus dos calles
-     * (sin importar el orden en que se las indique). Devuelve null si
-     * no existe ninguna interseccion entre esas dos calles
+     *Devuelve null si no existe ninguna interseccion entre esas dos calles
      */
     public Interseccion buscarPorCalles(String calleUno, String calleDos) {
         for (Interseccion interseccion : porId.values()) {

@@ -1,22 +1,21 @@
 package emergencias;
 
-import java.util.HashMap;
-import java.util.Map;
+import util.Diccionario;
 
-/**
+/*
  * Modulo: Despacho de Emergencias
  * Funcionalidad implementada: Registro, actualizacion y atencion de
  * emergencias priorizando la gravedad del evento mediante una Cola de
- * Prioridad (heap), sobre el orden cronologico de reporte.
+ * Prioridad, sobre el orden cronologico de reporte
  */
 public class GestorEmergencias {
 
     private ColaPrioridadEmergencias colaEmergencias;
-    private Map<String, Emergencia> registro;
+    private Diccionario<String, Emergencia> registro;
 
     public GestorEmergencias() {
         this.colaEmergencias = new ColaPrioridadEmergencias();
-        this.registro = new HashMap<>();
+        this.registro = new Diccionario<>();
     }
 
     public boolean registrarEmergencia(String codigo, String descripcion, int gravedad, String ubicacion) {
@@ -42,7 +41,7 @@ public class GestorEmergencias {
         return true;
     }
 
-    /** Extrae y atiende la emergencia de mayor gravedad pendiente. */
+    /* Extrae y atiende la emergencia de mayor gravedad pendiente */
     public Emergencia atenderSiguiente() {
         if (colaEmergencias.estaVacia()) {
             System.out.println("-> No hay emergencias pendientes en cola.");
