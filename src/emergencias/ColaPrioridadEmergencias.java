@@ -14,9 +14,9 @@ public class ColaPrioridadEmergencias {
     private static class Entrada {
         Emergencia emergencia;
         int prioridad;
-        long secuencia; // para desempatar por orden de llegada
+        int secuencia; // para desempatar por orden de llegada
 
-        Entrada(Emergencia emergencia, int prioridad, long secuencia) {
+        Entrada(Emergencia emergencia, int prioridad, int secuencia) {
             this.emergencia = emergencia;
             this.prioridad  = prioridad;
             this.secuencia  = secuencia;
@@ -27,7 +27,7 @@ public class ColaPrioridadEmergencias {
 
     private Entrada[] cola;
     private int cantidad;
-    private long contador; // numero de secuencia creciente
+    private int contador; // numero de secuencia creciente
 
     public ColaPrioridadEmergencias() {
         this.cola     = new Entrada[MAX];
