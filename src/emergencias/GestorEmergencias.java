@@ -1,37 +1,33 @@
 package emergencias;
 
+import util.IDiccionario;
 import util.Diccionario;
+import java.util.List;
 
-/*
- * Modulo: Despacho de Emergencias
- * Funcionalidad implementada: Registro, actualizacion y atencion de
- * emergencias priorizando la gravedad del evento mediante una Cola de
- * Prioridad, sobre el orden cronologico de reporte
- */
 public class GestorEmergencias {
 
+    private IDiccionario<String, Emergencia> emergencias;
     private ColaPrioridadEmergencias colaEmergencias;
-    private Diccionario<String, Emergencia> registro;
 
     public GestorEmergencias() {
+        this.emergencias = new Diccionario<>();
         this.colaEmergencias = new ColaPrioridadEmergencias();
-        this.registro = new Diccionario<>();
     }
 
     public boolean registrarEmergencia(String codigo, String descripcion, int gravedad, String ubicacion) {
-        if (registro.containsKey(codigo)) {
+        if (emergencias.containsKey(codigo)) {
             System.out.println("-> Ya existe una emergencia con el codigo '" + codigo + "'.");
             return false;
         }
         Emergencia emergencia = new Emergencia(codigo, descripcion, gravedad, ubicacion);
-        registro.put(codigo, emergencia);
+        emergencias.put(codigo, emergencia);
         colaEmergencias.encolar(emergencia, gravedad);
         System.out.println("-> Emergencia registrada: " + emergencia);
         return true;
     }
 
     public boolean actualizarEstado(String codigo, String nuevoEstado) {
-        Emergencia emergencia = registro.get(codigo);
+        Emergencia emergencia = emergencias.get(codigo);
         if (emergencia == null) {
             System.out.println("-> No existe emergencia con codigo '" + codigo + "'.");
             return false;
@@ -41,7 +37,6 @@ public class GestorEmergencias {
         return true;
     }
 
-    /* Extrae y atiende la emergencia de mayor gravedad pendiente */
     public Emergencia atenderSiguiente() {
         if (colaEmergencias.estaVacia()) {
             System.out.println("-> No hay emergencias pendientes en cola.");
@@ -54,7 +49,7 @@ public class GestorEmergencias {
     }
 
     public void listarPendientes() {
-        var pendientes = colaEmergencias.listar();
+        List<Emergencia> pendientes = colaEmergencias.listar();
         if (pendientes.isEmpty()) {
             System.out.println("-> No hay emergencias pendientes.");
             return;
@@ -66,11 +61,13 @@ public class GestorEmergencias {
     }
 
     public void listarTodas() {
-        if (registro.isEmpty()) {
+        List<Emergencia> todas = emergencias.values();
+        if (todas.isEmpty()) {
             System.out.println("-> No hay emergencias registradas.");
             return;
         }
-        for (Emergencia e : registro.values()) {
+        System.out.println("-> Todas las emergencias:");
+        for (Emergencia e : todas) {
             System.out.println("   " + e);
         }
     }

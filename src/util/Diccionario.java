@@ -6,7 +6,7 @@ package util;
  * y busqueda lineal secuencial
  *
  */
-public class Diccionario<K, V> {
+public class Diccionario<K, V> implements IDiccionario<K, V> {
     // Par interno: una clave y su valor asociado
     private static class Dato<K, V> {
         K clave;
@@ -18,7 +18,6 @@ public class Diccionario<K, V> {
         }
     }
 
-    // Estado interno
     private static final int DIMENSION_DEFECTO = 100;
 
     private Dato<K, V>[] datos;
@@ -26,14 +25,12 @@ public class Diccionario<K, V> {
     private int dimension;
 
     // Constructores
-    @SuppressWarnings("unchecked")
     public Diccionario(int dimension) {
         this.dimension = dimension;
         this.datos     = new Dato[dimension];
         this.cantidad  = 0;
     }
 
-    @SuppressWarnings("unchecked")
     public Diccionario() {
         this.dimension = DIMENSION_DEFECTO;
         this.datos     = new Dato[dimension];
