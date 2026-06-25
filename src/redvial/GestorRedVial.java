@@ -1,7 +1,5 @@
 package redvial;
 
-import redvial.*;
-
 import java.util.List;
 
 /*

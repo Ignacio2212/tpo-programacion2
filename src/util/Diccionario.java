@@ -47,11 +47,7 @@ public class Diccionario<K, V> implements IDiccionario<K, V> {
         return cantidad == dimension;
     }
 
-    /**
-     * Inserta un nuevo par clave-valor
-     * No inserta si la clave ya existe o si el diccionario esta lleno
-     * Devuelve true si se inserto correctamente
-     */
+
     public boolean insertar(K clave, V valor) {
         if (estaLleno()) {
             return false;
@@ -64,11 +60,7 @@ public class Diccionario<K, V> implements IDiccionario<K, V> {
         return true;
     }
 
-    /**
-     * Elimina el par con la clave dada desplazando los elementos
-     * posteriores para no dejar huecos.
-     * Devuelve true si se elimino, false si la clave no existia
-     */
+
     public boolean eliminar(K clave) {
         int posicion = existe(clave);
         if (posicion == -1) {
@@ -82,10 +74,7 @@ public class Diccionario<K, V> implements IDiccionario<K, V> {
         return true;
     }
 
-    /**
-     * Modifica el valor asociado a una clave existente.
-     * Devuelve true si se modifico, false si la clave no existia
-     */
+
     public boolean modificar(K clave, V valor) {
         int posicion = existe(clave);
         if (posicion != -1) {
@@ -137,23 +126,19 @@ public class Diccionario<K, V> implements IDiccionario<K, V> {
         return -1;
     }
 
-    /** Devuelve el valor para 'clave', o 'valorDefecto' si no existe */
     public V getOrDefault(K clave, V valorDefecto) {
         V valor = get(clave);
         return (valor != null) ? valor : valorDefecto;
     }
 
-    /** Devuelve cuantos pares estan almacenados */
     public int size() {
         return cantidad;
     }
 
-    /** Devuelve true si el diccionario esta vacio */
     public boolean isEmpty() {
         return estaVacio();
     }
 
-    /** Elimina el par con la clave dada y devuelve el valor eliminado, o null */
     public V remove(K clave) {
         int posicion = existe(clave);
         if (posicion == -1) return null;
@@ -162,7 +147,7 @@ public class Diccionario<K, V> implements IDiccionario<K, V> {
         return valor;
     }
 
-    /** Devuelve un arreglo con todos los valores almacenados, en orden de insercion */
+
     public java.util.List<V> values() {
         java.util.List<V> lista = new java.util.ArrayList<>();
         for (int i = 0; i < cantidad; i++) {
@@ -171,7 +156,7 @@ public class Diccionario<K, V> implements IDiccionario<K, V> {
         return lista;
     }
 
-    /** Devuelve un arreglo con todas las claves almacenadas, en orden de insercion */
+
     public java.util.List<K> keys() {
         java.util.List<K> lista = new java.util.ArrayList<>();
         for (int i = 0; i < cantidad; i++) {
@@ -180,7 +165,7 @@ public class Diccionario<K, V> implements IDiccionario<K, V> {
         return lista;
     }
 
-    /** Devuelve una lista de pares [clave, valor] para iterar sobre todas las entradas. */
+
     public java.util.List<Object[]> entradas() {
         java.util.List<Object[]> lista = new java.util.ArrayList<>();
         for (int i = 0; i < cantidad; i++) {
@@ -189,7 +174,7 @@ public class Diccionario<K, V> implements IDiccionario<K, V> {
         return lista;
     }
 
-    /** Muestra todas las entradas por consola. */
+
     public void mostrar() {
         if (!estaVacio()) {
             System.out.println("Diccionario:");

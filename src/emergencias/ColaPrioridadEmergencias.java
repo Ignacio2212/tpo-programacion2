@@ -43,13 +43,7 @@ public class ColaPrioridadEmergencias {
         return cantidad == MAX;
     }
 
-    /*
-     * Inserta la emergencia manteniendo el arreglo ordenado.
-     * Desplaza hacia la derecha los elementos de menor prioridad
-     * (mayor numero de gravedad) para hacer lugar al nuevo.
-     * Si dos emergencias tienen la misma gravedad, la que llego
-     * antes queda primero (orden de secuencia ascendente).
-     */
+
     public boolean encolar(Emergencia emergencia, int prioridad) {
         if (estaLlena()) {
             return false;
@@ -68,11 +62,7 @@ public class ColaPrioridadEmergencias {
         return true;
     }
 
-    /*
-     * Devuelve true si 'existente' debe ir despues de 'nueva',
-     * es decir si existente tiene menor prioridad (mayor numero)
-     * o igual prioridad pero llego despues.
-     */
+
     private boolean debeIrDespues(Entrada existente, Entrada nueva) {
         if (existente.prioridad != nueva.prioridad) {
             return existente.prioridad > nueva.prioridad;
@@ -80,10 +70,7 @@ public class ColaPrioridadEmergencias {
         return existente.secuencia > nueva.secuencia;
     }
 
-    /*
-     * Elimina y devuelve la emergencia de mayor prioridad (posicion 0).
-     * Desplaza todos los elementos una posicion hacia la izquierda.
-     */
+
     public Emergencia desencolar() {
         if (estaVacia()) {
             return null;

@@ -17,7 +17,9 @@ public class NodoTerritorial {
         this.hijos = new ArrayList<>();
     }
 
-    public String getTipo()   { return tipo; }
+    public String getTipo() {
+        return tipo;
+    }
 
     public void agregarHijo(NodoTerritorial hijo) {
         hijos.add(hijo);
@@ -40,10 +42,7 @@ public class NodoTerritorial {
         return null;
     }
 
-    /**
-     * Cuenta el total de dispositivos en este nodo y en todos sus
-     * descendientes
-     */
+
     public int totalDispositivosAcumulado() {
         int total = cantDispositivos;
         for (NodoTerritorial hijo : hijos) {
@@ -57,16 +56,19 @@ public class NodoTerritorial {
      */
     public String generarReporte(int nivel) {
         String sangria = "  ".repeat(nivel);
-        StringBuilder sb = new StringBuilder();
-        sb.append(sangria)
-                .append("[").append(tipo.toUpperCase()).append("] ")
-                .append(nombre)
-                .append("  (dispositivos propios: ").append(cantDispositivos)
-                .append(", total acumulado: ").append(totalDispositivosAcumulado())
-                .append(")\n");
+        String reporte = "";
+
+        reporte += sangria
+                + "[" + tipo.toUpperCase() + "] "
+                + nombre
+                + "  (dispositivos propios: " + cantDispositivos
+                + ", total acumulado: " + totalDispositivosAcumulado()
+                + ")\n";
+
         for (NodoTerritorial hijo : hijos) {
-            sb.append(hijo.generarReporte(nivel + 1));
+            reporte += hijo.generarReporte(nivel + 1);
         }
-        return sb.toString();
+
+        return reporte;
     }
 }

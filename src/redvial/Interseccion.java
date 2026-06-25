@@ -4,15 +4,11 @@ package redvial;
  * Representa una interseccion de la ciudad
  *
  * Cada interseccion tiene:
- *  - un ID unico, usado internamente por el sistema para administrar
- *    el grafo (vertices, busquedas, etc.). El usuario no necesita
- *    conocer ni usar este ID.
+ *  - un ID unico, . El usuario no necesita conocer ni usar este ID.
  *  - el nombre de las dos calles que se cruzan (ej: "Independencia"
  *    y "Lima"). Para el usuario, una interseccion se identifica y se
  *    muestra como "Independencia y Lima".
  *
- * El usuario se maneja siempre por nombres de calles; el ID es un
- * detalle interno del sistema.
  */
 public class Interseccion {
 

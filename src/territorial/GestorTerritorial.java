@@ -1,8 +1,6 @@
 package territorial;
 
 /**
- * Modulo: Organizacion Territorial
- * La ciudad se divide en zonas, barrios y manzanas.
  * Jerarquia:  Ciudad  >  Zona  >  Barrio  >  Manzana
  */
 public class GestorTerritorial {
@@ -43,11 +41,7 @@ public class GestorTerritorial {
         }
     }
 
-    /**
-     * Registra un dispositivo en una unidad territorial. Esto actualiza
-     * el contador de dispositivos de esa unidad, afectando los reportes
-     * estadisticos de toda la jerarquia que la contiene.
-     */
+
     public void registrarDispositivoEn(String nombreUnidad) {
         if (arbol.registrarDispositivoEn(nombreUnidad)) {
             System.out.println("-> Dispositivo registrado en '"
@@ -65,10 +59,7 @@ public class GestorTerritorial {
         System.out.println(arbol.generarReporteCompleto());
     }
 
-    /**
-     * Muestra el reporte estadistico de una unidad territorial
-     * especifica (zona, barrio o manzana) y sus sub-unidades.
-     */
+
     public void reporteDe(String nombreUnidad) {
         String reporte = arbol.generarReporteDe(nombreUnidad);
         if (reporte == null) {

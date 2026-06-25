@@ -3,10 +3,7 @@ package redvial;
 import util.Diccionario;
 import util.ConjuntoVisitados;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-
 
 public class Grafo {
 
@@ -48,11 +45,6 @@ public class Grafo {
         return todas;
     }
 
-    /**
-     * Encuentra TODAS las rutas simples entre dos vertices,
-     * usando DFS con backtracking. Ignora calles con corte total.
-     * Usa ConjuntoVisitados (arreglo + busqueda lineal) en lugar de HashSet.
-     */
     public List<List<Calle>> todasLasRutas(String origen, String destino) {
         List<List<Calle>> resultado = new ArrayList<>();
         if (!vertices.containsKey(origen) || !vertices.containsKey(destino)) {
@@ -90,7 +82,7 @@ public class Grafo {
      * Encuentra la ruta mas rapida entre dos intersecciones.
      * Explora todas las rutas posibles (via todasLasRutas con DFS)
      * y devuelve la de menor tiempo efectivo total.
-     * Usa solo algoritmos vistos en clase (BFS y DFS).
+     * Usa BFS y DFS.
      */
     public List<Calle> rutaMasRapida(String origen, String destino) {
         if (!vertices.containsKey(origen) || !vertices.containsKey(destino)) {

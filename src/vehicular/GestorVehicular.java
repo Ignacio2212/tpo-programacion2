@@ -1,7 +1,6 @@
 package vehicular;
 
 import util.Diccionario;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
