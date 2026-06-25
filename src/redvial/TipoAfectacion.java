@@ -5,43 +5,44 @@ package redvial;
  * Por ejemplo, una calle con tiempo base 2 y un semaforo roto
  * (factor 1.5) pasa a tener un tiempo efectivo de 3.
  */
-public enum TipoAfectacion {
+public class TipoAfectacion {
 
-    /* Trafico normal / sin incidentes. No penaliza el tiempo */
-    SIN_AFECTACION("Sin afectacion", 1.0),
+    // ===== CONSTANTES PREDEFINIDAS =====
+    public static TipoAfectacion SIN_AFECTACION =
+            new TipoAfectacion("Sin afectacion", 1.0);
 
-    /* Trafico denso pero la calle sigue transitable */
-    TRAFICO_MODERADO("Trafico moderado", 1.5),
+    public static TipoAfectacion TRAFICO_MODERADO =
+            new TipoAfectacion("Trafico moderado", 1.5);
 
-    /* Trafico muy denso (hora pico, embotellamiento) */
-    TRAFICO_PESADO("Trafico pesado", 2.5),
+    public static TipoAfectacion TRAFICO_PESADO =
+            new TipoAfectacion("Trafico pesado", 2.5);
 
-    /* Semaforo de la interseccion/calle fuera de servicio: demoras adicionales */
-    SEMAFORO_ROTO("Semaforo fuera de servicio", 1.8),
+    public static TipoAfectacion SEMAFORO_ROTO =
+            new TipoAfectacion("Semaforo fuera de servicio", 1.8);
 
-    /* Obra en la via: reduce carriles disponibles */
-    OBRA_EN_VIA("Obra en la via", 2.0),
+    public static TipoAfectacion OBRA_EN_VIA =
+            new TipoAfectacion("Obra en la via", 2.0);
 
-    /* Accidente de transito reportado en la calle */
-    ACCIDENTE("Accidente de transito", 3.0),
+    public static TipoAfectacion ACCIDENTE =
+            new TipoAfectacion("Accidente de transito", 3.0);
 
-    /* Manifestacion, evento o corte parcial que demora el paso */
-    CORTE_PARCIAL("Corte parcial de calle", 4.0),
+    public static TipoAfectacion CORTE_PARCIAL =
+            new TipoAfectacion("Corte parcial de calle", 4.0);
 
-    /*
-     * Corte total de la calle: queda intransitable. Se representa con
-     * un factor muy alto para que nunca se elija
-     */
-    CORTE_TOTAL("Corte total de calle", 1_000_000.0);
+    public static TipoAfectacion CORTE_TOTAL =
+            new TipoAfectacion("Corte total de calle", 1000000.0);
 
-    private final String descripcion;
-    private final double factorPonderacion;
+    // ===== ATRIBUTOS =====
+    private String descripcion;
+    private double factorPonderacion;
 
-    TipoAfectacion(String descripcion, double factorPonderacion) {
+    // ===== CONSTRUCTOR =====
+    public TipoAfectacion(String descripcion, double factorPonderacion) {
         this.descripcion = descripcion;
         this.factorPonderacion = factorPonderacion;
     }
 
+    // ===== MÉTODOS =====
     public String getDescripcion() {
         return descripcion;
     }
@@ -52,5 +53,10 @@ public enum TipoAfectacion {
 
     public boolean esCorteTotal() {
         return this == CORTE_TOTAL;
+    }
+
+    @Override
+    public String toString() {
+        return descripcion + " (x" + factorPonderacion + ")";
     }
 }

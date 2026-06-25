@@ -449,19 +449,43 @@ public class Main {
     // Helpers
 
     private static TipoAfectacion elegirAfectacion() {
-        TipoAfectacion[] opciones = TipoAfectacion.values();
         System.out.println("Tipos de afectacion disponibles:");
-        for (int i = 0; i < opciones.length; i++) {
-            TipoAfectacion af = opciones[i];
-            System.out.println((i + 1) + ". " + af.getDescripcion()
-                    + " (factor x" + formatearFactor(af.getFactorPonderacion()) + ")");
-        }
+        System.out.println("1. " + TipoAfectacion.SIN_AFECTACION.getDescripcion()
+                + " (factor x" + formatearFactor(TipoAfectacion.SIN_AFECTACION.getFactorPonderacion()) + ")");
+        System.out.println("2. " + TipoAfectacion.TRAFICO_MODERADO.getDescripcion()
+                + " (factor x" + formatearFactor(TipoAfectacion.TRAFICO_MODERADO.getFactorPonderacion()) + ")");
+        System.out.println("3. " + TipoAfectacion.TRAFICO_PESADO.getDescripcion()
+                + " (factor x" + formatearFactor(TipoAfectacion.TRAFICO_PESADO.getFactorPonderacion()) + ")");
+        System.out.println("4. " + TipoAfectacion.SEMAFORO_ROTO.getDescripcion()
+                + " (factor x" + formatearFactor(TipoAfectacion.SEMAFORO_ROTO.getFactorPonderacion()) + ")");
+        System.out.println("5. " + TipoAfectacion.OBRA_EN_VIA.getDescripcion()
+                + " (factor x" + formatearFactor(TipoAfectacion.OBRA_EN_VIA.getFactorPonderacion()) + ")");
+        System.out.println("6. " + TipoAfectacion.ACCIDENTE.getDescripcion()
+                + " (factor x" + formatearFactor(TipoAfectacion.ACCIDENTE.getFactorPonderacion()) + ")");
+        System.out.println("7. " + TipoAfectacion.CORTE_PARCIAL.getDescripcion()
+                + " (factor x" + formatearFactor(TipoAfectacion.CORTE_PARCIAL.getFactorPonderacion()) + ")");
+        System.out.println("8. " + TipoAfectacion.CORTE_TOTAL.getDescripcion()
+                + " (factor x" + formatearFactor(TipoAfectacion.CORTE_TOTAL.getFactorPonderacion()) + ")");
+
         Integer indice = leerEntero("Seleccione el tipo de afectacion: ");
-        if (indice == null || indice < 1 || indice > opciones.length) {
-            System.out.println("-> Opcion invalida.");
+
+        if (indice == null) {
             return null;
         }
-        return opciones[indice - 1];
+
+        switch(indice) {
+            case 1: return TipoAfectacion.SIN_AFECTACION;
+            case 2: return TipoAfectacion.TRAFICO_MODERADO;
+            case 3: return TipoAfectacion.TRAFICO_PESADO;
+            case 4: return TipoAfectacion.SEMAFORO_ROTO;
+            case 5: return TipoAfectacion.OBRA_EN_VIA;
+            case 6: return TipoAfectacion.ACCIDENTE;
+            case 7: return TipoAfectacion.CORTE_PARCIAL;
+            case 8: return TipoAfectacion.CORTE_TOTAL;
+            default:
+                System.out.println("-> Opcion invalida.");
+                return null;
+        }
     }
 
     private static String formatearFactor(double valor) {
