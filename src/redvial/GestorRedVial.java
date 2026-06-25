@@ -170,34 +170,40 @@ public class GestorRedVial {
      * Lima" hasta "Independencia y Salta"). Indica la secuencia exacta
      * de calles a recorrer y el tiempo total de viaje
      */
-    public Grafo.ResultadoRuta calcularRuta(String origenA, String origenB, String destinoA, String destinoB) {
+    public List<Calle> calcularRuta(String origenA, String origenB, String destinoA, String destinoB) {
         Interseccion origen = intersecciones.buscarPorCalles(origenA, origenB);
         Interseccion destino = intersecciones.buscarPorCalles(destinoA, destinoB);
 
         if (origen == null || destino == null) {
             System.out.println("--> No se encontro alguna de las intersecciones indicadas.");
-            return new Grafo.ResultadoRuta(null, Double.POSITIVE_INFINITY);
+            return null;
         }
 
-        Grafo.ResultadoRuta resultado = red.rutaMasRapida(origen.getId(), destino.getId());
+        List<Calle> ruta = red.rutaMasRapida(origen.getId(), destino.getId());
 
-        if (!resultado.existeCamino()) {
+        if (ruta == null) {
             System.out.println("--> No se encontro una ruta transitable entre '" + origen.getNombreVisible()
                     + "' y '" + destino.getNombreVisible() + "' (puede que todos los caminos esten cortados).");
-            return resultado;
+            return null;
         }
 
-        if (resultado.calles.isEmpty()) {
+        if (ruta.isEmpty()) {
             System.out.println("--> El origen y el destino son la misma interseccion.");
-            return resultado;
+            return ruta;
         }
 
         System.out.println("--> Ruta mas rapida de '" + origen.getNombreVisible()
                 + "' a '" + destino.getNombreVisible() + "':");
 
+        // Calcular tiempo total
+        double tiempoTotal = 0;
+        for (Calle c : ruta) {
+            tiempoTotal += c.getTiempoEfectivo();
+        }
+
         // Secuencia de calles: Calle1 --> Calle2 --> ... --> destino
         StringBuilder secuencia = new StringBuilder(origen.getNombreVisible());
-        for (Calle calle : resultado.calles) {
+        for (Calle calle : ruta) {
             Interseccion destinoTramo = intersecciones.buscarPorId(calle.getDestino());
             String nombreDestino = (destinoTramo != null) ? destinoTramo.getNombreVisible() : calle.getDestino();
             secuencia.append(" -(").append(calle.getNombre()).append(")--> ").append(nombreDestino);
@@ -207,13 +213,13 @@ public class GestorRedVial {
         // Detalle calle por calle, con su tiempo y afectacion
         Interseccion actual = origen;
         int paso = 1;
-        for (Calle calle : resultado.calles) {
+        for (Calle calle : ruta) {
             Interseccion siguiente = intersecciones.buscarPorId(calle.getDestino());
             String nombreSiguiente = (siguiente != null) ? siguiente.getNombreVisible() : calle.getDestino();
 
             String detalleAfectacion = calle.tieneAfectacion()
                     ? " [" + calle.getAfectacion().getDescripcion()
-                    + ", x" + formatear(calle.getAfectacion().getFactorPonderacion()) + "]"
+                      + ", x" + formatear(calle.getAfectacion().getFactorPonderacion()) + "]"
                     : " [sin afectaciones]";
             System.out.println("   " + paso + ". Tomar " + calle.getNombre()
                     + ": '" + actual.getNombreVisible() + "' --> '" + nombreSiguiente + "'"
@@ -224,8 +230,8 @@ public class GestorRedVial {
             paso++;
         }
 
-        System.out.println("--> Tiempo total estimado del viaje: " + formatear(resultado.tiempoTotal));
-        return resultado;
+        System.out.println("--> Tiempo total estimado del viaje: " + formatear(tiempoTotal));
+        return ruta;
     }
 
     /*

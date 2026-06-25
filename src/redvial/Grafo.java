@@ -25,7 +25,6 @@ public class Grafo {
     }
 
     /*
-     * Agrega una calle (arista dirigida) entre dos intersecciones.
      * Pueden existir varias calles entre el mismo par de intersecciones
      */
     public void agregarCalle(Calle calle) {
@@ -90,24 +89,10 @@ public class Grafo {
         return false;
     }
 
-    /* Resultado del calculo de ruta: secuencia de calles utilizadas y tiempo total */
-    public static class ResultadoRuta {
-        public final List<Calle> calles;
-        public final double tiempoTotal;
-
-        public ResultadoRuta(List<Calle> calles, double tiempoTotal) {
-            this.calles = calles;
-            this.tiempoTotal = tiempoTotal;
-        }
-
-        public boolean existeCamino() {
-            return calles != null;
-        }
-    }
-
     /**
      * Encuentra TODAS las rutas simples entre dos vertices,
      * usando DFS con backtracking. Ignora calles con corte total.
+     * Usa ConjuntoVisitados (arreglo + busqueda lineal) en lugar de HashSet.
      */
     public List<List<Calle>> todasLasRutas(String origen, String destino) {
         List<List<Calle>> resultado = new ArrayList<>();
@@ -142,55 +127,64 @@ public class Grafo {
         }
     }
 
-    /*
-     * Calcula la ruta mas rapida entre dos intersecciones usando BFS.
-     * Explora todos los caminos posibles (via todasLasRutas con DFS)
-     * y devuelve el de menor tiempo efectivo total.
+    /**
+     * Encuentra la ruta mas rapida entre dos intersecciones.
+     * Explora todas las rutas posibles (via todasLasRutas con DFS)
+     * y devuelve la de menor tiempo efectivo total.
+     * Usa solo algoritmos vistos en clase (BFS y DFS).
      */
-    public ResultadoRuta rutaMasRapida(String origen, String destino) {
+    public List<Calle> rutaMasRapida(String origen, String destino) {
         if (!vertices.containsKey(origen) || !vertices.containsKey(destino)) {
-            return new ResultadoRuta(null, Double.POSITIVE_INFINITY);
+            return null;
         }
 
         List<List<Calle>> todasLasRutas = todasLasRutas(origen, destino);
 
         if (todasLasRutas.isEmpty()) {
-            return new ResultadoRuta(null, Double.POSITIVE_INFINITY);
+            return null;
         }
 
-        List<Calle> mejorRuta = null;
-        double menorTiempo = Double.POSITIVE_INFINITY;
+        List<Calle> mejorRuta = todasLasRutas.get(0);
+        double menorTiempo = calcularTiempoRuta(mejorRuta);
 
         for (List<Calle> ruta : todasLasRutas) {
-            double tiempoRuta = 0;
-            for (Calle calle : ruta) {
-                tiempoRuta += calle.getTiempoEfectivo();
-            }
+            double tiempoRuta = calcularTiempoRuta(ruta);
             if (tiempoRuta < menorTiempo) {
                 menorTiempo = tiempoRuta;
                 mejorRuta = ruta;
             }
         }
 
-        return new ResultadoRuta(mejorRuta, menorTiempo);
+        return mejorRuta;
+    }
+
+    /**
+     * Calcula el tiempo total efectivo de una ruta.
+     */
+    private double calcularTiempoRuta(List<Calle> ruta) {
+        double total = 0;
+        for (Calle calle : ruta) {
+            total += calle.getTiempoEfectivo();
+        }
+        return total;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        String resultado = "";
         for (Object[] entrada : vertices.entradas()) {
             String v = (String) entrada[0];
             @SuppressWarnings("unchecked")
             List<Calle> calles = (List<Calle>) entrada[1];
+
             if (calles.isEmpty()) {
-                sb.append(v).append(" -> (sin calles salientes)\n");
-                continue;
-            }
-            for (Calle calle : calles) {
-                sb.append(v).append(" -> ").append(calle.getDestino())
-                        .append(" [").append(calle).append("]\n");
+                resultado += v + " -> (sin calles salientes)\n";
+            } else {
+                for (Calle calle : calles) {
+                    resultado += v + " -> " + calle.getDestino() + " [" + calle + "]\n";
+                }
             }
         }
-        return sb.toString().stripTrailing();
+        return resultado;
     }
 }
