@@ -17,10 +17,7 @@ public class NodoTerritorial {
         this.hijos = new ArrayList<>();
     }
 
-    public String getNombre() { return nombre; }
     public String getTipo()   { return tipo; }
-    public int getCantDispositivos() { return cantDispositivos; }
-    public List<NodoTerritorial> getHijos() { return hijos; }
 
     public void agregarHijo(NodoTerritorial hijo) {
         hijos.add(hijo);

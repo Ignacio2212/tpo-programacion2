@@ -126,17 +126,4 @@ public class GestorVehicular {
             System.out.println("-> No hay vehiculos en ninguna interseccion.");
         }
     }
-
-    /** Lista los nombres de todas las intersecciones con cola activa. */
-    public List<String> interseccionesActivas() {
-        List<String> activas = new ArrayList<>();
-        for (Object[] entrada : colasPorInterseccion.entradas()) {
-            String nombre = (String) entrada[0];
-            ColaVehicular cola = (ColaVehicular) entrada[1];
-            if (!cola.estaVacia()) {
-                activas.add(nombre);
-            }
-        }
-        return activas;
-    }
 }

@@ -15,12 +15,9 @@ public interface IDiccionario<K, V> {
     V get(K clave);
     boolean containsKey(K clave);
     boolean eliminar(K clave);
-    V remove(K clave);
     boolean modificar(K clave, V valor);
     V getOrDefault(K clave, V valorDefecto);
     int size();
     boolean isEmpty();
     List<V> values();
-    List<K> keys();
-    void mostrar();
 }

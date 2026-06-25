@@ -38,10 +38,6 @@ public class Interseccion {
         return calleDos;
     }
 
-    public boolean involucraCalle(String nombreCalle) {
-        return calleUno.equalsIgnoreCase(nombreCalle) || calleDos.equalsIgnoreCase(nombreCalle);
-    }
-
     public String getNombreVisible() {
         return calleUno + " y " + calleDos;
     }

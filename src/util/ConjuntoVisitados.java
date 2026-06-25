@@ -45,9 +45,4 @@ public class ConjuntoVisitados {
             }
         }
     }
-
-    /** Devuelve cuantos elementos tiene el conjunto */
-    public int tamanio() {
-        return cantidad;
-    }
 }

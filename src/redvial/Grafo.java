@@ -33,10 +33,6 @@ public class Grafo {
         vertices.get(calle.getOrigen()).add(calle);
     }
 
-    public boolean existeVertice(String nombre) {
-        return vertices.containsKey(nombre);
-    }
-
     /* Devuelve todas las calles que salen de una interseccion */
     public List<Calle> callesDesde(String interseccion) {
         List<Calle> lista = vertices.get(interseccion);
@@ -50,43 +46,6 @@ public class Grafo {
             todas.addAll(lista);
         }
         return todas;
-    }
-
-    /*
-     * Verifica mediante BFS si existe una ruta entre dos puntos,
-     * considerando unicamente calles transitables (no cortadas).
-     * Usa ConjuntoVisitados (arreglo + busqueda lineal) en lugar de HashSet.
-     */
-    public boolean existeRuta(String origen, String destino) {
-        if (!vertices.containsKey(origen) || !vertices.containsKey(destino)) {
-            return false;
-        }
-        if (origen.equals(destino)) {
-            return true;
-        }
-
-        ConjuntoVisitados visitados = new ConjuntoVisitados(CAPACIDAD_MAX);
-        visitados.agregar(origen);
-        Queue<String> cola = new LinkedList<>();
-        cola.add(origen);
-
-        while (!cola.isEmpty()) {
-            String actual = cola.poll();
-            for (Calle calle : vertices.get(actual)) {
-                if (calle.estaCortada()) {
-                    continue;
-                }
-                String vecino = calle.getDestino();
-                if (vecino.equals(destino)) {
-                    return true;
-                }
-                if (!visitados.contiene(vecino)) {
-                    visitados.agregar(vecino);
-                    cola.add(vecino);
-                }
-            }
-        }
-        return false;
     }
 
     /**

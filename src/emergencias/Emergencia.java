@@ -29,26 +29,6 @@ public class Emergencia {
         this.estado = "pendiente";
     }
 
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public int getGravedad() {
-        return gravedad;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
     public void setEstado(String estado) {
         this.estado = estado;
     }

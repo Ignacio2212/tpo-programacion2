@@ -19,10 +19,6 @@ public class ColaVehicular {
         this.cola = new LinkedList<>();
     }
 
-    public String getNombreInterseccion() {
-        return nombreInterseccion;
-    }
-
     /**
      * Registra un vehiculo al final de la cola de esta interseccion.
      * Su posicion en la cola determina el orden en que sera liberado
@@ -37,11 +33,6 @@ public class ColaVehicular {
      */
     public Vehiculo liberar() {
         return cola.poll();
-    }
-
-    /** Devuelve el primer vehiculo de la cola sin retirarlo. */
-    public Vehiculo verPrimero() {
-        return cola.peek();
     }
 
     public boolean estaVacia() {

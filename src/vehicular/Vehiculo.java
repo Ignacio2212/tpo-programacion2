@@ -15,7 +15,6 @@ public class Vehiculo {
     }
 
     public String getPatente()      { return patente; }
-    public String getTipoVehiculo() { return tipoVehiculo; }
 
     @Override
     public String toString() {

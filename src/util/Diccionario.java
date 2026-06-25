@@ -107,17 +107,6 @@ public class Diccionario<K, V> implements IDiccionario<K, V> {
     }
 
     /**
-     * Inserta el par solo si la clave no existia
-     * Si ya existia, devuelve el valor actual sin modificarlo
-     */
-    public V putIfAbsent(K clave, V valor) {
-        V existente = get(clave);
-        if (existente != null) return existente;
-        insertar(clave, valor);
-        return valor;
-    }
-
-    /**
      * Inserta o actualiza: si la clave no existe la inserta,
      * si ya existe modifica su valor
      */

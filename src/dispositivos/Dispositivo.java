@@ -13,26 +13,6 @@ public class Dispositivo {
         this.estado = estado;
     }
 
-    public Dispositivo(String codigo, String tipo, String ubicacion) {
-        this(codigo, tipo, ubicacion, "activo");
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
     public void setEstado(String estado) {
         this.estado = estado;
     }

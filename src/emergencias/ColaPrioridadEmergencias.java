@@ -43,10 +43,6 @@ public class ColaPrioridadEmergencias {
         return cantidad == MAX;
     }
 
-    public int tamanio() {
-        return cantidad;
-    }
-
     /*
      * Inserta la emergencia manteniendo el arreglo ordenado.
      * Desplaza hacia la derecha los elementos de menor prioridad
@@ -99,14 +95,6 @@ public class ColaPrioridadEmergencias {
         cola[cantidad - 1] = null;
         cantidad--;
         return eliminada;
-    }
-
-    /* Devuelve la emergencia de mayor prioridad sin eliminarla */
-    public Emergencia verProximo() {
-        if (estaVacia()) {
-            return null;
-        }
-        return cola[0].emergencia;
     }
 
     /* Devuelve las emergencias en orden de prioridad sin modificar la cola */

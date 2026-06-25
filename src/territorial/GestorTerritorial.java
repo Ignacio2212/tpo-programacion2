@@ -79,9 +79,4 @@ public class GestorTerritorial {
             System.out.println(reporte);
         }
     }
-
-    /** Informa si una unidad territorial existe en la jerarquia. */
-    public boolean existe(String nombreUnidad) {
-        return arbol.buscar(nombreUnidad) != null;
-    }
 }

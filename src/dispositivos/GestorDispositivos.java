@@ -59,8 +59,4 @@ public class GestorDispositivos {
             System.out.println("   " + d);
         }
     }
-
-    public int tamanio() {
-        return dispositivos.size();
-    }
 }

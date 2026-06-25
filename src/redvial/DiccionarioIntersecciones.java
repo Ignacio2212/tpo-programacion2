@@ -68,22 +68,8 @@ public class DiccionarioIntersecciones {
         return null;
     }
 
-    /* Devuelve todas las intersecciones que involucran a una calle dada */
-    public List<Interseccion> buscarPorCalle(String nombreCalle) {
-        List<Interseccion> resultado = new ArrayList<>();
-        for (Interseccion interseccion : porId.values()) {
-            if (interseccion.involucraCalle(nombreCalle)) {
-                resultado.add(interseccion);
-            }
-        }
-        return resultado;
-    }
-
     public List<Interseccion> listar() {
         return new ArrayList<>(porId.values());
     }
 
-    public int tamanio() {
-        return porId.size();
-    }
 }
