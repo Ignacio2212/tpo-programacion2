@@ -5,7 +5,6 @@ import util.ConjuntoVisitados;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 
@@ -107,9 +106,8 @@ public class Grafo {
     }
 
     /**
-     * Encuentra TODAS las rutas simples (sin ciclos) entre dos vertices,
+     * Encuentra TODAS las rutas simples entre dos vertices,
      * usando DFS con backtracking. Ignora calles con corte total.
-     * Usa ConjuntoVisitados (arreglo + busqueda lineal) en lugar de HashSet.
      */
     public List<List<Calle>> todasLasRutas(String origen, String destino) {
         List<List<Calle>> resultado = new ArrayList<>();
@@ -144,73 +142,37 @@ public class Grafo {
         }
     }
 
+    /*
+     * Calcula la ruta mas rapida entre dos intersecciones usando BFS.
+     * Explora todos los caminos posibles (via todasLasRutas con DFS)
+     * y devuelve el de menor tiempo efectivo total.
+     */
     public ResultadoRuta rutaMasRapida(String origen, String destino) {
         if (!vertices.containsKey(origen) || !vertices.containsKey(destino)) {
             return new ResultadoRuta(null, Double.POSITIVE_INFINITY);
         }
 
-        Diccionario<String, Double> tiempos   = new Diccionario<>();
-        Diccionario<String, Calle> calleUsada = new Diccionario<>();
-        Diccionario<String, String> previos   = new Diccionario<>();
+        List<List<Calle>> todasLasRutas = todasLasRutas(origen, destino);
 
-        for (String v : vertices.keys()) {
-            tiempos.put(v, Double.POSITIVE_INFINITY);
-        }
-        tiempos.put(origen, 0.0);
-
-        PriorityQueue<String> heap = new PriorityQueue<>(
-                (a, b) -> Double.compare(tiempos.get(a), tiempos.get(b)));
-        heap.add(origen);
-
-        ConjuntoVisitados visitados = new ConjuntoVisitados(CAPACIDAD_MAX);
-
-        while (!heap.isEmpty()) {
-            String actual = heap.poll();
-
-            if (visitados.contiene(actual)) {
-                continue;
-            }
-            visitados.agregar(actual);
-
-            if (actual.equals(destino)) {
-                break;
-            }
-
-            List<Calle> callesActual = vertices.get(actual);
-            if (callesActual == null) continue;
-
-            for (Calle calle : callesActual) {
-                if (calle.estaCortada()) {
-                    continue;
-                }
-
-                String vecino = calle.getDestino();
-                double tiempoArista = calle.getTiempoEfectivo();
-                double nuevoTiempo = tiempos.get(actual) + tiempoArista;
-
-                Double tiempoActual = tiempos.get(vecino);
-                if (tiempoActual == null || nuevoTiempo < tiempoActual) {
-                    tiempos.put(vecino, nuevoTiempo);
-                    previos.put(vecino, actual);
-                    calleUsada.put(vecino, calle);
-                    heap.add(vecino);
-                }
-            }
-        }
-
-        Double tiempoDestino = tiempos.get(destino);
-        if (tiempoDestino == null || tiempoDestino == Double.POSITIVE_INFINITY) {
+        if (todasLasRutas.isEmpty()) {
             return new ResultadoRuta(null, Double.POSITIVE_INFINITY);
         }
 
-        LinkedList<Calle> calles = new LinkedList<>();
-        String actual = destino;
-        while (previos.containsKey(actual)) {
-            calles.addFirst(calleUsada.get(actual));
-            actual = previos.get(actual);
+        List<Calle> mejorRuta = null;
+        double menorTiempo = Double.POSITIVE_INFINITY;
+
+        for (List<Calle> ruta : todasLasRutas) {
+            double tiempoRuta = 0;
+            for (Calle calle : ruta) {
+                tiempoRuta += calle.getTiempoEfectivo();
+            }
+            if (tiempoRuta < menorTiempo) {
+                menorTiempo = tiempoRuta;
+                mejorRuta = ruta;
+            }
         }
 
-        return new ResultadoRuta(new ArrayList<>(calles), tiempoDestino);
+        return new ResultadoRuta(mejorRuta, menorTiempo);
     }
 
     @Override
