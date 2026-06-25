@@ -22,7 +22,7 @@ intersecciones. Pueden existir varias calles entre el mismo par de
 intersecciones (calles alternativas). Mediante Dijkstra, se calcula
 la ruta de menor tiempo total (criterio único: tiempo, no distancia
 ni cantidad de cuadras).
-* Diccionario de Intersecciones (Red Vial, Tabla Hash - HashMap):
+* Diccionario de Intersecciones (Red Vial):
 indexa cada interseccion por un ID único interno (ej.
 INT-001), generado y administrado automaticamente. El usuario
 nunca necesita conocer ni usar este ID: siempre identifica una
