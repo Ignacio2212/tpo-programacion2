@@ -1,30 +1,38 @@
 package vehicular;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
-/**
- * Gestiona los vehiculos que esperan en UNA interseccion especifica.
- * Los vehiculos son liberados estrictamente en el orden en que
- * llegaron a la interseccion (primero en llegar, primero en salir).
- */
+
 public class ColaVehicular {
 
-    private final Queue<Vehiculo> cola;
+    private NodoVehiculo cabeza;
+    private NodoVehiculo cola;
     private final String nombreInterseccion;
+    private int cantidad;
 
     public ColaVehicular(String nombreInterseccion) {
         this.nombreInterseccion = nombreInterseccion;
-        this.cola = new LinkedList<>();
+        this.cabeza = null;
+        this.cola = null;
+        this.cantidad = 0;
     }
 
-    /**
-     * Registra un vehiculo al final de la cola de esta interseccion.
-     * Su posicion en la cola determina el orden en que sera liberado
-     */
+    public String getNombreInterseccion() {
+        return nombreInterseccion;
+    }
+
     public void encolar(Vehiculo vehiculo) {
-        cola.add(vehiculo);
+        NodoVehiculo nuevoNodo = new NodoVehiculo(vehiculo);
+
+        if (cabeza == null) {
+            cabeza = nuevoNodo;
+            cola = nuevoNodo;
+        } else {
+            cola.siguiente = nuevoNodo;
+            cola = nuevoNodo;
+        }
+        cantidad++;
     }
 
     /**
@@ -32,19 +40,58 @@ public class ColaVehicular {
      * Devuelve null si no hay vehiculos esperando.
      */
     public Vehiculo liberar() {
-        return cola.poll();
+        if (cabeza == null) {
+            return null;
+        }
+
+        Vehiculo vehiculo = cabeza.vehiculo;
+        cabeza = cabeza.siguiente;
+        cantidad--;
+
+        if (cabeza == null) {
+            cola = null;
+        }
+
+        return vehiculo;
+    }
+
+
+    public Vehiculo verPrimero() {
+        if (cabeza == null) {
+            return null;
+        }
+        return cabeza.vehiculo;
     }
 
     public boolean estaVacia() {
-        return cola.isEmpty();
+        return cabeza == null;
     }
 
     public int cantidadEsperando() {
-        return cola.size();
+        return cantidad;
     }
 
     /** Devuelve la lista de vehiculos en orden de llegada (sin modificar la cola). */
     public List<Vehiculo> listarEnOrden() {
-        return new LinkedList<>(cola);
+        List<Vehiculo> lista = new ArrayList<>();
+
+        NodoVehiculo actual = cabeza;
+        while (actual != null) {
+            lista.add(actual.vehiculo);
+            actual = actual.siguiente;
+        }
+
+        return lista;
+    }
+
+
+    private static class NodoVehiculo {
+        Vehiculo vehiculo;
+        NodoVehiculo siguiente;
+
+        NodoVehiculo(Vehiculo vehiculo) {
+            this.vehiculo = vehiculo;
+            this.siguiente = null;
+        }
     }
 }

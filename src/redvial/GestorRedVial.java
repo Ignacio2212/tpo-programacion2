@@ -33,7 +33,6 @@ public class GestorRedVial {
      * Registra la interseccion formada por
      * dos calles, ej: "Independencia" y "Lima". El sistema le asigna
      * automaticamente un ID interno (ej: INT-001) para administrarla;
-     * el usuario solo necesita recordar el nombre de las dos calles
      */
     public Interseccion registrarInterseccion(String calleUno, String calleDos) {
         Interseccion interseccion = intersecciones.crearOConseguir(calleUno, calleDos);
@@ -43,16 +42,7 @@ public class GestorRedVial {
         return interseccion;
     }
 
-    /*
-     * Agrega una calle (cuadra) que conecta dos intersecciones, en el
-     * sentido origen -> destino. Cada interseccion se identifica por
-     * el nombre de sus dos calles (ej: "Independencia" + "Lima").
-     *
-     * @param nombreCalle  nombre de la calle que se recorre en este tramo
-     * @param origenA, origenB     calles que forman la interseccion de origen
-     * @param destinoA, destinoB   calles que forman la interseccion de destino
-     * @param tiempoBase   tiempo de recorrido en condiciones normales
-     */
+
     public boolean agregarCalle(String nombreCalle,
                                 String origenA, String origenB,
                                 String destinoA, String destinoB,
@@ -60,7 +50,7 @@ public class GestorRedVial {
         return agregarCalle(nombreCalle, origenA, origenB, destinoA, destinoB, tiempoBase, TipoAfectacion.SIN_AFECTACION);
     }
 
-    /* Igual que {@link #agregarCalle}, pero permite indicar una afectacion inicial */
+
     public boolean agregarCalle(String nombreCalle,
                                 String origenA, String origenB,
                                 String destinoA, String destinoB,
@@ -89,10 +79,7 @@ public class GestorRedVial {
         return true;
     }
 
-    /*
-     * Agrega una calle de doble mano entre dos intersecciones (crea
-     * ambos sentidos, sin afectaciones iniciales)
-     */
+
     public boolean agregarCalleDobleMano(String nombreCalle,
                                          String interseccionUnoA, String interseccionUnoB,
                                          String interseccionDosA, String interseccionDosB,
