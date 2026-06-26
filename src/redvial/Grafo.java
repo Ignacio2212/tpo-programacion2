@@ -55,7 +55,7 @@ public class Grafo {
         dfsTodasLasRutas(origen, destino, visitados, new ArrayList<>(), resultado);
         return resultado;
     }
-
+/*UTILIZO DFS*/
     private void dfsTodasLasRutas(String actual, String destino,
                                   ConjuntoVisitados visitados, List<Calle> rutaActual,
                                   List<List<Calle>> resultado) {
@@ -78,12 +78,7 @@ public class Grafo {
         }
     }
 
-    /**
-     * Encuentra la ruta mas rapida entre dos intersecciones.
-     * Explora todas las rutas posibles (via todasLasRutas con DFS)
-     * y devuelve la de menor tiempo efectivo total.
-     * Usa BFS y DFS.
-     */
+
     public List<Calle> rutaMasRapida(String origen, String destino) {
         if (!vertices.containsKey(origen) || !vertices.containsKey(destino)) {
             return null;
